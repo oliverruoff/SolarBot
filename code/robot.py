@@ -30,8 +30,7 @@ if __name__ == '__main__':
         print('Power:', ina.get_power())
 
         # Testing Servo
-        sv.test_routine()
-
+        #sv.test_routine()
         sv.move_to_angle(45)
         time.sleep(1)
         sv.move_to_angle(0)
@@ -42,8 +41,16 @@ if __name__ == '__main__':
         motor_driver.change_both_duty_cycles(100)
         time.sleep(2)
         motor_driver.set_both_direction_clockwise(False)
-        motor_driver.set_both_direction_clockwise(False)
         time.sleep(2)
+        motor_driver.set_standby_both()
+        motor_driver.set_left_direction_clockwise(True)
+        motor_driver.change_both_duty_cycles(100)
+        time.sleep(2)
+        motor_driver.set_right_direction_clockwise(True)
+        motor_driver.change_both_duty_cycles(0)
+        for i in range(0,100,5):
+            motor_driver.change_both_duty_cycles(i)
+            time.sleep(0.3)
         motor_driver.set_standby_both()
 
 
