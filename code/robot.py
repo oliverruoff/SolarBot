@@ -23,6 +23,7 @@ if __name__ == '__main__':
         motor_driver.change_both_duty_cycles(100)
         time.sleep(2)
         motor_driver.set_both_direction_clockwise(False)
+        motor_driver.set_both_direction_clockwise(False)
         time.sleep(2)
         motor_driver.set_standby_both()
 
