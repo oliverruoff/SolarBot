@@ -30,11 +30,11 @@ if __name__ == '__main__':
         print('Power:', ina.get_power())
 
         # Testing Servo
-        sv.move_to_angle(-45)
+        sv.move_to_angle(45)
         time.sleep(2)
         sv.move_to_angle(0)
         time.sleep(2)
-        sv.move_to_angle(-90)
+        sv.move_to_angle(90)
 
         # Testing Motors
         motor_driver.change_both_duty_cycles(100)
