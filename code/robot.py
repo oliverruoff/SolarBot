@@ -20,11 +20,9 @@ if __name__ == '__main__':
         gpio_mode=GPIO_MODE)
 
     try:
-        motor_driver.change_right_duty_cycle(100)
-        motor_driver.change_left_duty_cycle(100)
+        motor_driver.change_both_duty_cycles(100)
         time.sleep(2)
-        motor_driver.set_right_direction_clockwise(False)
-        motor_driver.set_left_direction_clockwise(False)
+        motor_driver.set_both_direction_clockwise(False)
         time.sleep(2)
         motor_driver.set_standby_both()
 
