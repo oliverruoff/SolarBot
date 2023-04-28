@@ -27,6 +27,9 @@ if __name__ == '__main__':
         time.sleep(2)
         motor_driver.set_standby_both()
 
+        # Cleaning up in the end
+        GPIO.cleanup()
+
     except KeyboardInterrupt:
         motor_driver.stop_both()
         GPIO.cleanup()
