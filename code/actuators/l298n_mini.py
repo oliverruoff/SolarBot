@@ -68,6 +68,10 @@ class l298n:
         self.change_right_duty_cycle(duty_cycle)
 
     def set_right_direction_clockwise(self, clockwise):
+        if self.right_direction_clockwise == clockwise:
+            return # if direction already set, just ignore change
+        else:
+            self.right_direction_clockwise = clockwise
         if clockwise:
             self.p_a = GPIO.PWM(self.in1_pin, 1000)  # setting pin1 to pwm
             GPIO.output(self.in2_pin, GPIO.LOW) # and pin2 to 0 -> forward
@@ -77,6 +81,10 @@ class l298n:
         self.change_right_duty_cycle(self.right_duty_cycle)
 
     def set_left_direction_clockwise(self, clockwise):
+        if self.left_direction_clockwise == clockwise:
+            return # if direction already set, just ignore change
+        else:
+            self.left_direction_clockwise = clockwise
         if clockwise:
             self.p_b = GPIO.PWM(self.in3_pin, 1000)  # setting pin1 to pwm
             GPIO.output(self.in4_pin, GPIO.LOW) # and pin2 to 0 -> forward
