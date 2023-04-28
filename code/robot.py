@@ -24,24 +24,26 @@ if __name__ == '__main__':
     ina = ina219.ina219()
 
     try:
-        #motor_driver.change_both_duty_cycles(100)
-        #time.sleep(2)
-        #motor_driver.set_both_direction_clockwise(False)
-        #motor_driver.set_both_direction_clockwise(False)
-        #time.sleep(2)
-        #motor_driver.set_standby_both()
-
+        # Testing INA219
         print('Voltage:', ina.get_voltage())
         print('Current:', ina.get_current())
         print('Power:', ina.get_power())
 
-        sv.move_to_angle(0)
-        time.sleep(2)
-        sv.move_to_angle(45)
-        time.sleep(2)
-        sv.move_to_angle(90)
+        # Testing Servo
+        sv.move_to_angle(-45)
         time.sleep(2)
         sv.move_to_angle(0)
+        time.sleep(2)
+        sv.move_to_angle(-90)
+
+        # Testing Motors
+        motor_driver.change_both_duty_cycles(100)
+        time.sleep(2)
+        motor_driver.set_both_direction_clockwise(False)
+        motor_driver.set_both_direction_clockwise(False)
+        time.sleep(2)
+        motor_driver.set_standby_both()
+
 
         # Cleaning up in the end
         GPIO.cleanup()
