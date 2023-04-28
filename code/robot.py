@@ -21,10 +21,12 @@ if __name__ == '__main__':
 
     try:
         motor_driver.change_right_duty_cycle(100)
+        motor_driver.change_left_duty_cycle(100)
         time.sleep(2)
         motor_driver.set_right_direction_clockwise(False)
+        motor_driver.set_left_direction_clockwise(False)
         time.sleep(2)
-        motor_driver.set_standby_right()
+        motor_driver.set_standby_both()
 
     except KeyboardInterrupt:
         motor_driver.stop_both()
