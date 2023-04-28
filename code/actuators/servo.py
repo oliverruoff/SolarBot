@@ -18,5 +18,6 @@ class servo:
     def test_routine(self):
         import time
         for dc in range(12):
+            print('Chaning servo dutycycle to:', dc)
             self.p.ChangeDutyCycle(dc)
             time.sleep(1)
