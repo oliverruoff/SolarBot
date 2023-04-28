@@ -1,7 +1,7 @@
 import time
 
 import RPi.GPIO as GPIO
-from actuators import l298n_mini
+from actuators import l298n_mini, servo
 
 
 # IMPORTANT VARIABLES TO CONFIGURE -------------------
@@ -18,14 +18,24 @@ if __name__ == '__main__':
         in3_pin=13,
         in4_pin=6,
         gpio_mode=GPIO_MODE)
+    
+    sv = servo.servo(23)
 
     try:
-        motor_driver.change_both_duty_cycles(100)
+        #motor_driver.change_both_duty_cycles(100)
+        #time.sleep(2)
+        #motor_driver.set_both_direction_clockwise(False)
+        #motor_driver.set_both_direction_clockwise(False)
+        #time.sleep(2)
+        #motor_driver.set_standby_both()
+
+        sv.move_to_angle(0)
         time.sleep(2)
-        motor_driver.set_both_direction_clockwise(False)
-        motor_driver.set_both_direction_clockwise(False)
+        sv.move_to_angle(45)
         time.sleep(2)
-        motor_driver.set_standby_both()
+        sv.move_to_angle(90)
+        time.sleep(2)
+        sv.move_to_angle(0)
 
         # Cleaning up in the end
         GPIO.cleanup()
