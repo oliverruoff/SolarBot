@@ -2,6 +2,7 @@ import time
 
 import RPi.GPIO as GPIO
 from actuators import l298n_mini, servo
+from sensors import ina219
 
 
 # IMPORTANT VARIABLES TO CONFIGURE -------------------
@@ -28,6 +29,8 @@ if __name__ == '__main__':
         #motor_driver.set_both_direction_clockwise(False)
         #time.sleep(2)
         #motor_driver.set_standby_both()
+
+        ina219.read()
 
         sv.move_to_angle(0)
         time.sleep(2)
