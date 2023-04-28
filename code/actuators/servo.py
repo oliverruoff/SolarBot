@@ -13,4 +13,4 @@ class servo:
         self.p.start(0)
 
     def move_to_angle(self, degree):
-        self.p.ChangeDutyCycle(2+(degree/18))
+        self.p.ChangeDutyCycle(int(2+(degree/18)))
