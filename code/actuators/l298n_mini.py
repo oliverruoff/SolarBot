@@ -32,10 +32,6 @@ class l298n:
         GPIO.setup(in3_pin, GPIO.OUT)
         GPIO.setup(in4_pin, GPIO.OUT)
 
-        # setting all pins to low at start
-        self.set_left_direction_clockwise(True)
-        self.set_right_direction_clockwise(True)
-
         # right motor
         self.p_a = GPIO.PWM(in1_pin, 1000)  # setting pin1 to pwm
         GPIO.output(self.in2_pin, GPIO.LOW) # and pin2 to 0 -> forward
