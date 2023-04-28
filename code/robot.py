@@ -31,12 +31,11 @@ if __name__ == '__main__':
 
         # Testing Servo
         sv.test_routine()
-        exit()
 
         sv.move_to_angle(45)
-        time.sleep(2)
+        time.sleep(1)
         sv.move_to_angle(0)
-        time.sleep(2)
+        time.sleep(1)
         sv.move_to_angle(90)
 
         # Testing Motors
