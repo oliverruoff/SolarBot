@@ -14,3 +14,9 @@ class servo:
 
     def move_to_angle(self, degree):
         self.p.ChangeDutyCycle(int(2+(degree/18)))
+
+    def test_routine(self):
+        import time
+        for dc in range(12):
+            self.p.ChangeDutyCycle(dc)
+            time.sleep(1)
