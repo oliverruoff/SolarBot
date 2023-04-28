@@ -13,10 +13,10 @@ GPIO.setmode(GPIO_MODE)
 if __name__ == '__main__':
 
     motor_driver = l298n_mini.l298n(
-        in1_pin=19,
-        in2_pin=13,
-        in3_pin=6,
-        in4_pin=5,
+        in1_pin=26,
+        in2_pin=19,
+        in3_pin=13,
+        in4_pin=6,
         gpio_mode=GPIO_MODE)
 
     try:
