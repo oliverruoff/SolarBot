@@ -52,6 +52,7 @@ class l298n:
             duty_cycle = 0
         self.right_duty_cycle = duty_cycle
         self.p_a.ChangeDutyCycle(duty_cycle)
+        self.p_a.start(0)
 
     def change_left_duty_cycle(self, duty_cycle):
         if duty_cycle > 100:
@@ -60,6 +61,7 @@ class l298n:
             duty_cycle = 0
         self.left_duty_cycle = duty_cycle
         self.p_b.ChangeDutyCycle(duty_cycle)
+        self.p_b.start(0)
 
     def set_right_direction_clockwise(self, clockwise):
         if clockwise:
