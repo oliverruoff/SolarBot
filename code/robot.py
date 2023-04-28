@@ -20,23 +20,11 @@ if __name__ == '__main__':
         gpio_mode=GPIO_MODE)
 
     try:
-        motor_driver.change_right_duty_cycle(50)
-        time.sleep(2)
         motor_driver.change_right_duty_cycle(100)
-        time.sleep(2)
-        motor_driver.change_left_duty_cycle(50)
-        time.sleep(2)
-        motor_driver.break_right()
-        time.sleep(2)
-        motor_driver.change_left_duty_cycle(100)
-        time.sleep(2)
-        motor_driver.change_right_duty_cycle(100)
-        time.sleep(2)
-        motor_driver.set_left_direction_clockwise(False)
         time.sleep(2)
         motor_driver.set_right_direction_clockwise(False)
         time.sleep(2)
-        motor_driver.break_both() 
+        motor_driver.set_standby_right()
 
     except KeyboardInterrupt:
         motor_driver.stop_both()
