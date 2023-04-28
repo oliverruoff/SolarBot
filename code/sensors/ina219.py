@@ -12,7 +12,7 @@ class ina219:
 
     def get_voltage(self):
         try:
-            return "%.3f" % self.ina.voltage()
+            return "%.3f V" % self.ina.voltage()
         except DeviceRangeError as e:
             # Current out of device range with specified shunt resistor
             print(e)
@@ -20,7 +20,7 @@ class ina219:
 
     def get_current(self):
         try:
-            return "%.3f" % self.ina.current()
+            return "%.3f mA" % self.ina.current()
         except DeviceRangeError as e:
             # Current out of device range with specified shunt resistor
             print(e)
@@ -28,7 +28,7 @@ class ina219:
 
     def get_power(self):
         try:
-            return "%.3f" % self.ina.power()
+            return "%.3f mW" % self.ina.power()
         except DeviceRangeError as e:
             # Current out of device range with specified shunt resistor
             print(e)
@@ -36,7 +36,7 @@ class ina219:
 
     def get_shunt_voltage(self):
         try:
-            return "%.3f" % self.ina.shunt_voltage()
+            return "%.3f mV" % self.ina.shunt_voltage()
         except DeviceRangeError as e:
             # Current out of device range with specified shunt resistor
             print(e)
