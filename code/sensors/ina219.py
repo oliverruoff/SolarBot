@@ -4,16 +4,40 @@ from ina219 import DeviceRangeError
 
 SHUNT_OHMS = 0.1
 
+class ina219:
 
-def read():
-    ina = INA219(SHUNT_OHMS)
-    ina.configure()
+    def __init__(self):
+        self.ina = INA219(SHUNT_OHMS)
+        self.ina.configure()
 
-    print("Bus Voltage: %.3f V" % ina.voltage())
-    try:
-        print("Bus Current: %.3f mA" % ina.current())
-        print("Power: %.3f mW" % ina.power())
-        print("Shunt voltage: %.3f mV" % ina.shunt_voltage())
-    except DeviceRangeError as e:
-        # Current out of device range with specified shunt resistor
-        print(e)
+    def get_voltage(self):
+        try:
+            return "%.3f" % self.ina.voltage()
+        except DeviceRangeError as e:
+            # Current out of device range with specified shunt resistor
+            print(e)
+            return "ERROR"
+
+    def get_current(self):
+        try:
+            return "%.3f" % self.ina.current()
+        except DeviceRangeError as e:
+            # Current out of device range with specified shunt resistor
+            print(e)
+            return "ERROR"
+
+    def get_power(self):
+        try:
+            return "%.3f" % self.ina.power()
+        except DeviceRangeError as e:
+            # Current out of device range with specified shunt resistor
+            print(e)
+            return "ERROR"
+
+    def get_shunt_voltage(self):
+        try:
+            return "%.3f" % self.ina.shunt_voltage()
+        except DeviceRangeError as e:
+            # Current out of device range with specified shunt resistor
+            print(e)
+            return "ERROR"

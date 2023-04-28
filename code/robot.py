@@ -21,6 +21,7 @@ if __name__ == '__main__':
         gpio_mode=GPIO_MODE)
     
     sv = servo.servo(23)
+    ina = ina219.ina219()
 
     try:
         #motor_driver.change_both_duty_cycles(100)
@@ -30,7 +31,9 @@ if __name__ == '__main__':
         #time.sleep(2)
         #motor_driver.set_standby_both()
 
-        ina219.read()
+        print('Voltage:', ina.get_voltage())
+        print('Current:', ina.get_current())
+        print('Power:', ina.get_power())
 
         sv.move_to_angle(0)
         time.sleep(2)
