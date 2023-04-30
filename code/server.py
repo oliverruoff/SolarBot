@@ -18,51 +18,17 @@ tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
 
 
-@app.route("/turn")
-def turn():
-    direction = request.args.get('direction')
-    degree = int(request.args.get('degree', default=90))
-    if direction == 'left':
-        print('turning')
-        # sgm.gyro_turn(degree, right=False, motor_speed=90)
-        return 'Turned %i degree to the %s.' % (degree, direction)
-    elif direction == 'right':
-        print('turning')
-        # sgm.gyro_turn(degree, right=True, motor_speed=90)
-        return 'Turned %i degree to the %s.' % (degree, direction)
-    else:
-        return 'Direction not supported!'
-
-
-@app.route("/move")
-def move():
-    direction = request.args.get('direction')
-    duration = float(request.args.get('duration', default=1))
-    motorspeed = int(request.args.get('motorspeed', default=90))
-    _dir = True
-    if direction == 'forward':
-        _dir = True
-    elif direction == 'backward':
-        _dir = False
-    else:
-        return 'Direction not supported!'
-    # sgm.gyro_move_start(_dir, motor_speed=motorspeed)
-    time.sleep(duration)
-    # sgm.gyro_move_stop()
-    return 'Moved %f seconds with motorspeed: %i to direction: %s' \
-        % (duration, motorspeed, direction)
-
-
 @app.route("/joystick")
 def joystick():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
 
+    # cleaning x data
     if x > 100:
         x = 100
     elif x < -100:
         x = -100
-
+    # cleaning y data
     if y > 100:
         y = 100
     elif y < -100:
@@ -73,7 +39,7 @@ def joystick():
     abs_y = abs(y)
     abs_x = abs(x)
     if x == 0 and y == 0:
-        motor_driver.break_both()
+        motor_driver.set_standby_both()
         return 'Stopped motors.'
 
     if y > 0:
@@ -81,14 +47,7 @@ def joystick():
     elif y < 0:
         motor_driver.set_both_direction_clockwise(False)
     else:
-        pass
-        # pt.stop_motors()
-
-    # Extra logic for better rotating movement
-    if y < 15 and y > -15:
-        motor_driver.change_left_duty_cycle(abs(x))
-        motor_driver.change_right_duty_cycle(abs(x))
-        return'Done.'
+        return motor_driver.set_standby_both()
 
     if x > 0:
         left = abs_y
