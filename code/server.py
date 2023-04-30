@@ -85,16 +85,10 @@ def joystick():
         # pt.stop_motors()
 
     # Extra logic for better rotating movement
-    #if y < 15 and y > -15:
-    #    if x > 0:
-    #        pt.turn_left_wheel(True)
-    #        pt.turn_right_wheel(False)
-    #    if x < 0:
-    #        pt.turn_left_wheel(False)
-    #        pt.turn_right_wheel(True)
-    #    pt.change_speed_left(abs(x))
-    #    pt.change_speed_right(abs(x))
-    #    return'Done.'
+    if y < 15 and y > -15:
+        motor_driver.change_left_duty_cycle(abs(x))
+        motor_driver.change_right_duty_cycle(abs(x))
+        return'Done.'
 
     if x > 0:
         left = abs_y
