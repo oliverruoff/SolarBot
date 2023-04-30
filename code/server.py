@@ -159,4 +159,4 @@ if __name__ == "__main__":
     with open(js_path, 'r') as file:
         js_str = file.read()
 
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5000)
