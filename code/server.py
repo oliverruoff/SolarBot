@@ -49,23 +49,20 @@ def joystick():
     else:
         return motor_driver.set_standby_both()
 
+    if x == 0:
+        motor_driver.change_both_duty_cycles(abs_y)
+        return 'Done'
+
     if x > 0:
         left = abs_y
         right = int(abs_y - (abs_x*(abs_y/100)))
-        print('Left:', left)
-        print('Right:', right)
-        motor_driver.change_left_duty_cycle(left)
-        motor_driver.change_right_duty_cycle(right)
     elif x < 0:
         right = abs_y
         left = int(abs_y - (abs_x*(abs_y/100)))
-        print('Left:', left)
-        print('Right:', right)
-        motor_driver.change_right_duty_cycle(right)
-        motor_driver.change_left_duty_cycle(left)
-    else:
-        motor_driver.change_right_duty_cycle(abs_y)
-        motor_driver.change_left_duty_cycle(abs_y)
+    print('Left:', left)
+    print('Right:', right)
+    motor_driver.change_left_duty_cycle(left)
+    motor_driver.change_right_duty_cycle(right)
     return 'Done'
 
 
@@ -101,10 +98,10 @@ if __name__ == "__main__":
     GPIO.setmode(GPIO_MODE)
 
     motor_driver = l298n_mini.l298n(
-        in1_pin=26,
-        in2_pin=19,
-        in3_pin=13,
-        in4_pin=6,
+        in1_pin=13,
+        in2_pin=6,
+        in3_pin=26,
+        in4_pin=19,
         gpio_mode=GPIO_MODE)
 
     # remote_html = prepare_remote()
