@@ -14,10 +14,10 @@ GPIO.setmode(GPIO_MODE)
 if __name__ == '__main__':
 
     motor_driver = l298n_mini.l298n(
-        in1_pin=26,
-        in2_pin=19,
-        in3_pin=13,
-        in4_pin=6,
+        in1_pin=13,
+        in2_pin=6,
+        in3_pin=26,
+        in4_pin=19,
         gpio_mode=GPIO_MODE)
     
     sv = servo.servo(23)
