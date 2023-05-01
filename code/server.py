@@ -17,8 +17,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
 
-
-@app.route("/joystick")
+# -100 > y < 100 --> forward / backward
+# -100 > x < 100 --> left    / right
+@app.route("/move")
 def joystick():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
