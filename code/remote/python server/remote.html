@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>MateBot Remote</title>
+  <title>SolarBot Remote</title>
   <style>
     body {
       margin: 0px;
@@ -54,8 +54,7 @@
           httpGet("{{ url_for('move') }}?x=-100&y=0")
         } else if ((keysPressed.indexOf('KeyD') >= 0 || keysPressed.indexOf('ArrowRight')) >= 0) {
           httpGet("{{ url_for('move') }}?x=100&y=0")
-        }
-        else if (keysPressed.indexOf('KeyT') >= 0) {
+        } else if (keysPressed.indexOf('KeyT') >= 0) {
           console.log("Test button pressed.")
         }
       } else if (keysPressed.length == 2) {

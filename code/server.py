@@ -47,8 +47,6 @@ def move():
         motor_driver.set_both_direction_clockwise(True)
     elif y < 0:
         motor_driver.set_both_direction_clockwise(False)
-    else:
-        return motor_driver.set_standby_both()
 
     if x == 0:
         motor_driver.change_both_duty_cycles(abs_y)
