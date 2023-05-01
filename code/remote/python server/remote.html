@@ -35,16 +35,21 @@
     keyControl = false;
     keysPressed = [];
     var oldUrl = ""
+    old_keysPressed = [];
 
     function stop() {
       httpGet("{{ url_for('move') }}?x=0&y=0")
     }
 
-
-
     function reactToKeysPressed() {
       console.log('KeysPressed: ', keysPressed)
       console.log('Length: ', keysPressed.length)
+
+      if (old_keysPressed == keysPressed) {
+        console.log("Same keys pressed, doing nothing.")
+        return;
+      }
+
       if (keysPressed.length == 1) {
         if ((keysPressed.indexOf('KeyW') >= 0 || keysPressed.indexOf('ArrowUp') >= 0)) {
           httpGet("{{ url_for('move') }}?x=0&y=100")
@@ -76,7 +81,10 @@
       } else {
         console.log('Too many buttons pressed!');
       }
+      old_keysPressed = keysPressed;
     }
+
+
     document.addEventListener('keydown', function(event) {
       console.log('Key down:', event.code)
       if (keysPressed.indexOf(event.code) < 0) {
