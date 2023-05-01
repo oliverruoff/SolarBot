@@ -48,6 +48,8 @@
       if (old_keysPressed == keysPressed) {
         console.log("Same keys pressed, doing nothing.")
         return;
+      } else {
+        old_keysPressed = keysPressed;
       }
 
       if (keysPressed.length == 1) {
@@ -81,7 +83,6 @@
       } else {
         console.log('Too many buttons pressed!');
       }
-      old_keysPressed = keysPressed;
     }
 
 
