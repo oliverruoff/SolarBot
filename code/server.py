@@ -20,7 +20,7 @@ tmp_img_path = os.path.join(
 # -100 > y < 100 --> forward / backward
 # -100 > x < 100 --> left    / right
 @app.route("/move")
-def joystick():
+def move():
     x = int(request.args.get('x'))
     y = int(request.args.get('y'))
 
