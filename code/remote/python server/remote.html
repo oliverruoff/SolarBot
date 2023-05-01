@@ -52,7 +52,7 @@
         } else if ((keysPressed.indexOf('KeyS') >= 0 || keysPressed.indexOf('ArrowDown')) >= 0) {
           httpGet("{{ url_for('move') }}?x=0&y=-100")
         } else if ((keysPressed.indexOf('KeyA') >= 0 || keysPressed.indexOf('ArrowLeft')) >= 0) {
-          httpGet("{{ url_for('move') }}?x=-100&y=0")
+          httpGet("{{ url_for('turn_left') }}")
         } else if ((keysPressed.indexOf('KeyD') >= 0 || keysPressed.indexOf('ArrowRight')) >= 0) {
           httpGet("{{ url_for('move') }}?x=100&y=0")
         } else if (keysPressed.indexOf('KeyT') >= 0) {

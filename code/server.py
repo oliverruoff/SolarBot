@@ -17,6 +17,13 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
 
+@app.route("turn_left")
+def turn_left():
+    motor_driver.set_left_direction_clockwise(False)
+    motor_driver.set_right_direction_clockwise(True)
+    motor_driver.change_both_duty_cycles(100)
+    return "Done"
+
 # -100 > y < 100 --> forward / backward
 # -100 > x < 100 --> left    / right
 @app.route("/move")
@@ -47,10 +54,6 @@ def move():
         motor_driver.set_both_direction_clockwise(True)
     elif y < 0:
         motor_driver.set_both_direction_clockwise(False)
-
-    if x == 0:
-        motor_driver.change_both_duty_cycles(abs_y)
-        return 'Done'
 
     if x > 0:
         left = abs_y
