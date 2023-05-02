@@ -17,61 +17,57 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
 
-@app.route("/turn_left")
-def turn_left():
-    motor_driver.set_left_direction_clockwise(False)
+@app.route("/forward_curve_left")
+def forward_curve_left():
+    motorspeed = int(request.args.get('motorspeed', default=100))
+    motor_driver.set_left_direction_clockwise(True)
     motor_driver.set_right_direction_clockwise(True)
-    motor_driver.change_both_duty_cycles(100)
+    motor_driver.change_right_duty_cycle(motorspeed)
+    second_motor_speed = motorspeed - 40 if motorspeed > 40 else 0
+    motor_driver.change_left_duty_cycle(second_motor_speed)
     return "Done"
 
-# -100 > y < 100 --> forward / backward
-# -100 > x < 100 --> left    / right
-@app.route("/move")
-def move():
-    x = int(request.args.get('x'))
-    y = int(request.args.get('y'))
+@app.route("/forward_curve_right")
+def forward_curve_right():
+    motorspeed = int(request.args.get('motorspeed', default=100))
+    motor_driver.set_left_direction_clockwise(True)
+    motor_driver.set_right_direction_clockwise(True)
+    motor_driver.change_left_duty_cycle(motorspeed)
+    second_motor_speed = motorspeed - 40 if motorspeed > 40 else 0
+    motor_driver.change_right_duty_cycle(second_motor_speed)
+    return "Done"
 
-    # cleaning x data
-    if x > 100:
-        x = 100
-    elif x < -100:
-        x = -100
-    # cleaning y data
-    if y > 100:
-        y = 100
-    elif y < -100:
-        y = -100
+@app.route("/turn_left")
+def turn_left():
+    motorspeed = int(request.args.get('motorspeed', default=100))
+    motor_driver.set_left_direction_clockwise(False)
+    motor_driver.set_right_direction_clockwise(True)
+    motor_driver.change_both_duty_cycles(motorspeed)
+    return "Done"
 
-    print('x:', x)
-    print('y:', y)
-    abs_y = abs(y)
-    abs_x = abs(x)
-    if x == 0 and y == 0:
-        motor_driver.set_standby_both()
-        return 'Stopped motors.'
+@app.route("/turn_right")
+def turn_right():
+    motorspeed = int(request.args.get('motorspeed', default=100))
+    motor_driver.set_left_direction_clockwise(True)
+    motor_driver.set_right_direction_clockwise(False)
+    motor_driver.change_both_duty_cycles(motorspeed)
+    return "Done"
 
-    if y > 0:
-        motor_driver.set_both_direction_clockwise(True)
-    elif y < 0:
-        motor_driver.set_both_direction_clockwise(False)
+@app.route("/move_forward")
+def move_forward():
+    motorspeed = int(request.args.get('motorspeed', default=100))
+    motor_driver.set_left_direction_clockwise(True)
+    motor_driver.set_right_direction_clockwise(True)
+    motor_driver.change_both_duty_cycles(motorspeed)
+    return "Done"
 
-    if x > 0:
-        left = abs_y
-        right = int(abs_y - (abs_x*(abs_y/100)))
-    elif x < 0:
-        right = abs_y
-        left = int(abs_y - (abs_x*(abs_y/100)))
-    print('Left:', left)
-    print('Right:', right)
-    motor_driver.change_left_duty_cycle(left)
-    motor_driver.change_right_duty_cycle(right)
-    return 'Done'
-
-
-@app.route("/joystickscript")
-def joystickscript():
-    return js_str
-
+@app.route("/move_backward")
+def move_backward():
+    motorspeed = int(request.args.get('motorspeed', default=100))
+    motor_driver.set_left_direction_clockwise(False)
+    motor_driver.set_right_direction_clockwise(False)
+    motor_driver.change_both_duty_cycles(motorspeed)
+    return "Done"
 
 @app.route("/")
 def remote():

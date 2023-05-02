@@ -28,6 +28,7 @@
       <button onmousedown="move('right')" onmouseup="stop()" id="buttonRight"
         style="width:50px;height:50px;margin:1px;">►</button>
       <br>
+      <input type="range" min="1" max="100" value="50" class="slider" id="slider">
     </div>
   </div>
   </div>
@@ -36,6 +37,7 @@
     keysPressed = [];
     var oldUrl = ""
     old_keysPressed = [];
+    const slider = document.getElementById("slider");
 
     function stop() {
       httpGet("{{ url_for('move') }}?x=0&y=0")
@@ -48,7 +50,7 @@
 
       if (keysPressed.length == 1) {
         if ((keysPressed.indexOf('KeyW') >= 0 || keysPressed.indexOf('ArrowUp') >= 0)) {
-          httpGet("{{ url_for('move') }}?x=0&y=100")
+          httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
         } else if ((keysPressed.indexOf('KeyS') >= 0 || keysPressed.indexOf('ArrowDown')) >= 0) {
           httpGet("{{ url_for('move') }}?x=0&y=-100")
         } else if ((keysPressed.indexOf('KeyA') >= 0 || keysPressed.indexOf('ArrowLeft')) >= 0) {
