@@ -195,10 +195,9 @@ function addMeasurement(value) {
 // REST-Call zum Abrufen der Messungen
 setInterval(() => {
   fetch(REST_API_URL)
-    .then(response => response.json())
     .then(data => {
       // Füge die neue Messung zum Graphen hinzu
-      addMeasurement(data.value);
+      addMeasurement(parseFloat(data));
     })
     .catch(error => console.error('REST-Call fehlgeschlagen:', error));
 }, 5000); // wiederhole den Call alle 5 Sekunden

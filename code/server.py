@@ -78,7 +78,7 @@ def stop():
 
 @app.route("/get_voltage")
 def get_voltage():
-    return ina.get_voltage()
+    return ina.get_voltage().split(" ")[0]
 
 @app.route("/")
 def remote():
