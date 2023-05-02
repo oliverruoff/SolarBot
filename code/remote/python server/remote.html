@@ -55,7 +55,7 @@
 
  
 
-      if (old_keysPressed === keysPressed) {
+      if (arraysEqual(old_keysPresse, keysPressed)) {
         console.log('Same combination, doing nothing.')
         return
       } else {
@@ -95,7 +95,13 @@
       }
     }
 
+  function arraysEqual(a, b) {
+    if (a.length !== b.length) {
+      return false;
+    }
 
+    return a.every((element) => b.includes(element));
+  }
     document.addEventListener('keydown', function(event) {
       console.log('Key down:', event.code)
       if (keysPressed.indexOf(event.code) < 0) {
