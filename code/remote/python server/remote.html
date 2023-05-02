@@ -186,9 +186,11 @@ const myChart = new Chart(
 
 // Funktion zum Hinzufügen einer Messung zum Graphen
 function addMeasurement(value) {
+  console.log("Added measurement: ", value)
   const chartData = myChart.data.datasets[0].data; // hole das Datenarray des Chart-Objekts
   chartData.shift(); // entferne die älteste Messung
   chartData.push(value); // füge die neue Messung hinzu
+  console.log("Chart data: ", chartData)
   myChart.update(); // aktualisiere den Graphen
 }
 
