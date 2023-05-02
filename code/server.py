@@ -3,6 +3,7 @@ import time
 import os
 import json
 from picamera import PiCamera
+from camera import Camera
 
 import RPi.GPIO as GPIO
 
@@ -92,24 +93,25 @@ def remote():
     return render_template('remote.html', js_path=js_path)
 
 
-def gen():
+def gen(camera):
     """Video streaming generator function."""
    # global frame_counter
    # voltage = ina.get_voltage()
-    while True:
+   # while True:
    #     if frame_counter % 100 == 0:
    #         voltage = ina.get_voltage()
    #         frame_counter = 1
    #     else:
    #         frame_counter += 1
-        frame = camera.capture_continuous(format='jpeg', use_video_port=True)
+    while True:
+        frame = camera.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(),
+    return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
