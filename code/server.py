@@ -92,7 +92,7 @@ def remote():
 def gen():
     """Video streaming generator function."""
     global frame_counter
-    voltage = ina.get_voltage()
+    #voltage = ina.get_voltage()
     while True:
         #if frame_counter % 1000 == 0:
         #    voltage = ina.get_voltage()
