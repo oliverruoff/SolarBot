@@ -128,7 +128,7 @@
       return xmlHttp.responseText;
     }
 
-    const MAX_MEASUREMENTS = 100; // maximale Anzahl von Messungen für den Graphen
+const MAX_MEASUREMENTS = 100; // maximale Anzahl von Messungen für den Graphen
 const REST_API_URL = "{{ url_for('get_voltage') }}"; // URL für den REST-Call
 
 // Erstelle ein Array mit Labels für die letzten 100 Messungen (1-100)
@@ -141,7 +141,7 @@ const data = {
     label: 'Akku-Messungen',
     backgroundColor: 'rgb(255, 99, 132)',
     borderColor: 'rgb(255, 99, 132)',
-    data: Array(MAX_MEASUREMENTS).fill(null),
+    data: Array(MAX_MEASUREMENTS).fill(0),
     fill: false
   }]
 };
@@ -199,7 +199,7 @@ setInterval(() => {
   fetch(REST_API_URL)
     .then(data => {
       // Füge die neue Messung zum Graphen hinzu
-      addMeasurement(parseFloat(data));
+      addMeasurement(data);
     })
     .catch(error => console.error('REST-Call fehlgeschlagen:', error));
 }, 5000); // wiederhole den Call alle 5 Sekunden
