@@ -91,9 +91,8 @@ def get_voltage():
 def remote():
     return render_template('remote.html', js_path=js_path)
 
-
+"""
 def gen():
-    """Video streaming generator function."""
    # global frame_counter
    # voltage = ina.get_voltage()
    # while True:
@@ -106,7 +105,17 @@ def gen():
         frame = camera.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+"""
 
+def gen():
+    while True:
+        time.sleep(0.1)
+        frame = camera.capture_continuous(
+            format='jpeg', use_video_port=True, quality=20, 
+            resize=(320, 240), thumbnail=None
+        )
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame.getvalue() + b'\r\n')
 
 @app.route('/video_feed')
 def video_feed():
