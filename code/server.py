@@ -19,6 +19,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
 
+frame_counter = 0
+voltage = 0
+
 @app.route("/forward_curve_left")
 def forward_curve_left():
     motorspeed = int(request.args.get('motorspeed', default=100))
@@ -89,9 +92,14 @@ def remote():
 def gen():
     """Video streaming generator function."""
     while True:
+        if frame_counter % 100 == 0:
+            voltage = ina.get_voltage()
+            frame_counter = 0
+        else:
+            frame_counter += 1
         rval, frame = vc.read()
         frame = cv2.flip(frame, flipCode=-1)
-        text = "Test"
+        text = voltage
         text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)
         text_x = frame.shape[1] - text_size[0] - 10
         text_y = frame.shape[0] - text_size[1] - 10
