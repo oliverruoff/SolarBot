@@ -52,27 +52,27 @@
         if ((keysPressed.indexOf('KeyW') >= 0 || keysPressed.indexOf('ArrowUp') >= 0)) {
           httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
         } else if ((keysPressed.indexOf('KeyS') >= 0 || keysPressed.indexOf('ArrowDown')) >= 0) {
-          httpGet("{{ url_for('move') }}?x=0&y=-100")
+          httpGet("{{ url_for('move_backward') }}?motorspeed="+slider.value)
         } else if ((keysPressed.indexOf('KeyA') >= 0 || keysPressed.indexOf('ArrowLeft')) >= 0) {
-          httpGet("{{ url_for('turn_left') }}")
+          httpGet("{{ url_for('turn_left') }}?motorspeed="+slider.value)
         } else if ((keysPressed.indexOf('KeyD') >= 0 || keysPressed.indexOf('ArrowRight')) >= 0) {
-          httpGet("{{ url_for('move') }}?x=100&y=0")
+          httpGet("{{ url_for('turn_right') }}?motorspeed="+slider.value)
         } else if (keysPressed.indexOf('KeyT') >= 0) {
           console.log("Test button pressed.")
         }
       } else if (keysPressed.length == 2) {
         if ((keysPressed.indexOf('ArrowUp') >= 0 && keysPressed.indexOf('ArrowRight') >= 0) ||
           keysPressed.indexOf('KeyW') >= 0 && keysPressed.indexOf('KeyD') >= 0) {
-          httpGet("{{ url_for('move') }}?x=60&y=100")
+          httpGet("{{ url_for('forward_curve_right') }}?motorspeed="+slider.value)
         } else if ((keysPressed.indexOf('ArrowUp') >= 0 && keysPressed.indexOf('ArrowLeft') >= 0) ||
           keysPressed.indexOf('KeyW') >= 0 && keysPressed.indexOf('KeyA') >= 0) {
-          httpGet("{{ url_for('move') }}?x=-60&y=100")
+          httpGet("{{ url_for('forward_curve_left') }}?motorspeed="+slider.value)
         } else if ((keysPressed.indexOf('ArrowDown') >= 0 && keysPressed.indexOf('ArrowLeft') >= 0) ||
           keysPressed.indexOf('KeyS') >= 0 && keysPressed.indexOf('KeyA') >= 0) {
-          httpGet("{{ url_for('move') }}?x=-60&y=-100")
+          httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
         } else if ((keysPressed.indexOf('ArrowDown') >= 0 && keysPressed.indexOf('ArrowRight') >= 0) ||
           keysPressed.indexOf('KeyS') >= 0 && keysPressed.indexOf('KeyD') >= 0) {
-          httpGet("{{ url_for('move') }}?x=60&y=-100")
+          httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
         }
       } else if (keysPressed.length == 0) {
         stop()
