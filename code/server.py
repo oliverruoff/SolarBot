@@ -2,8 +2,8 @@ from flask import Flask, request, Response, render_template
 import time
 import os
 import json
+from picamera import PiCamera
 
-import cv2
 import RPi.GPIO as GPIO
 
 from actuators import l298n_mini
@@ -13,11 +13,14 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 html_template_dir = os.path.join(dir_path, 'remote', 'python server')
 
 app = Flask(__name__, template_folder=html_template_dir)
-vc = cv2.VideoCapture(0)
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
+
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 24
 
 frame_counter = 1
 voltage = 0
@@ -91,29 +94,21 @@ def remote():
 
 def gen():
     """Video streaming generator function."""
-    global frame_counter
-    voltage = ina.get_voltage()
+   # global frame_counter
+   # voltage = ina.get_voltage()
     while True:
-        if frame_counter % 100 == 0:
-            voltage = ina.get_voltage()
-            frame_counter = 1
-        else:
-            frame_counter += 1
-        rval, frame = vc.read()
-        frame = cv2.flip(frame, flipCode=-1)
-        text = voltage
-        text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)
-        text_x = frame.shape[1] - text_size[0] - 10
-        text_y = frame.shape[0] - text_size[1] - 10
-        cv2.putText(frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        cv2.imwrite(tmp_img_path, frame)
+   #     if frame_counter % 100 == 0:
+   #         voltage = ina.get_voltage()
+   #         frame_counter = 1
+   #     else:
+   #         frame_counter += 1
+        frame = camera.capture_continuous(format='jpeg', use_video_port=True)
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + open(tmp_img_path, 'rb').read() + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 
 @app.route('/video_feed')
 def video_feed():
-    """Video streaming route. Put this in the src attribute of an img tag."""
     return Response(gen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
