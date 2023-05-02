@@ -53,6 +53,12 @@
       console.log('Old keys pressed: ', old_keysPressed)
       console.log('Length: ', keysPressed.length)
 
+      if (old_keysPressed === keysPressed) {
+        console.log('Same combination, doing nothing.')
+      } else {
+        old_keysPressed = keysPressed
+      }
+
       if (keysPressed.length == 1) {
         if ((keysPressed.indexOf('KeyW') >= 0 || keysPressed.indexOf('ArrowUp') >= 0)) {
           httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
