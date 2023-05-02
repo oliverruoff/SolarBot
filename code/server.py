@@ -93,7 +93,7 @@ def gen():
     """Video streaming generator function."""
     global frame_counter
     while True:
-        if frame_counter % 100 == 0:
+        if frame_counter % 1000 == 0:
             voltage = ina.get_voltage()
             frame_counter = 0
         else:
