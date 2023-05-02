@@ -92,6 +92,7 @@ def remote():
 def gen():
     """Video streaming generator function."""
     global frame_counter
+    voltage = ina.get_voltage()
     while True:
         if frame_counter % 1000 == 0:
             voltage = ina.get_voltage()
@@ -130,8 +131,6 @@ if __name__ == "__main__":
     
     # voltage meter
     ina = ina219.ina219()
-
-    voltage = ina.get_voltage()
 
     # remote_html = prepare_remote()
     js_path = os.path.join(dir_path, 'remote', 'python server', 'joystick.js')
