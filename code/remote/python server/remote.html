@@ -45,7 +45,7 @@
     }
 
     function stop() {
-      httpGet("{{ url_for('stop') }}?x=0&y=0")
+      httpGet("{{ url_for('stop') }}")
     }
 
     function reactToKeysPressed() {
@@ -53,9 +53,7 @@
       console.log('Old keys pressed: ', old_keysPressed)
       console.log('Length: ', keysPressed.length)
 
-      if (keysPressed.length == 0) {
-        stop()
-      } 
+ 
 
       if (old_keysPressed === keysPressed) {
         console.log('Same combination, doing nothing.')
@@ -90,7 +88,9 @@
           keysPressed.indexOf('KeyS') >= 0 && keysPressed.indexOf('KeyD') >= 0) {
           httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
         }
-      } else {
+      }  else if (keysPressed.length == 0) {
+        stop()
+      }  else {
         console.log('Too many buttons pressed!');
       }
     }
