@@ -94,7 +94,7 @@ def gen():
     global frame_counter
     voltage = ina.get_voltage()
     while True:
-        if frame_counter % 1000 == 0:
+        if frame_counter % 100 == 0:
             voltage = ina.get_voltage()
             frame_counter = 1
         else:
