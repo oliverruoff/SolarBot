@@ -131,6 +131,8 @@ if __name__ == "__main__":
     # voltage meter
     ina = ina219.ina219()
 
+    voltage = ina.get_voltage()
+
     # remote_html = prepare_remote()
     js_path = os.path.join(dir_path, 'remote', 'python server', 'joystick.js')
     with open(js_path, 'r') as file:
