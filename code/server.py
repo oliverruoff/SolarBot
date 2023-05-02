@@ -22,6 +22,7 @@ tmp_img_path = os.path.join(
 camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 24
+camera.rotation = 180
 
 frame_counter = 1
 voltage = 0
@@ -112,7 +113,7 @@ def gen():
     while True:
         # time.sleep(0.1)
         with io.BytesIO() as output:
-            camera.capture(output, format='jpeg', use_video_port=True, quality=20, resize=(320, 240))
+            camera.capture(output, format='jpeg', use_video_port=True, quality=20, resize=(640, 480))
             frame = output.getvalue()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
