@@ -91,6 +91,11 @@ def gen():
     while True:
         rval, frame = vc.read()
         frame = cv2.flip(frame, flipCode=-1)
+        text = "Test"
+        text_size, _ = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)
+        text_x = frame.shape[1] - text_size[0] - 10
+        text_y = frame.shape[0] - text_size[1] - 10
+        cv2.putText(frame, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         cv2.imwrite(tmp_img_path, frame)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + open(tmp_img_path, 'rb').read() + b'\r\n')
