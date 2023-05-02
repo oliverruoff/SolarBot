@@ -69,6 +69,11 @@ def move_backward():
     motor_driver.change_both_duty_cycles(motorspeed)
     return "Done"
 
+@app.route("/stop")
+def stop():
+    motor_driver.set_standby_both()
+    return "Done"
+
 @app.route("/")
 def remote():
     return render_template('remote.html', js_path=js_path)

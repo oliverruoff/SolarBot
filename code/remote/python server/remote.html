@@ -39,6 +39,11 @@
     old_keysPressed = [];
     const slider = document.getElementById("slider");
 
+    function move(mode) {
+      console.log('Button Pressed: ', mode)
+      
+    }
+
     function stop() {
       httpGet("{{ url_for('move') }}?x=0&y=0")
     }
