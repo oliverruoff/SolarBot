@@ -6,6 +6,7 @@ import cv2
 import RPi.GPIO as GPIO
 
 from actuators import l298n_mini
+from sensors import ina219
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 html_template_dir = os.path.join(dir_path, 'remote', 'python server')
@@ -75,6 +76,10 @@ def stop():
     motor_driver.set_standby_both()
     return "Done"
 
+@app.route("/get_voltage")
+def get_voltage():
+    return ina.get_voltage()
+
 @app.route("/")
 def remote():
     return render_template('remote.html', js_path=js_path)
@@ -107,6 +112,9 @@ if __name__ == "__main__":
         in3_pin=26,
         in4_pin=19,
         gpio_mode=GPIO_MODE)
+    
+    # voltage meter
+    ina = ina219.ina219()
 
     # remote_html = prepare_remote()
     js_path = os.path.join(dir_path, 'remote', 'python server', 'joystick.js')

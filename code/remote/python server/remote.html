@@ -10,9 +10,11 @@
       background-color: rgb(34, 34, 34);
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
+  <canvas id="myChart"></canvas>
   <div id="imgDiv" style="width:640px;height:480px;margin:10px auto;">
     <img id="img_id" src="{{ url_for('video_feed') }}" style="position:relative;">
   </div>
@@ -125,6 +127,83 @@
       xmlHttp.send(null);
       return xmlHttp.responseText;
     }
+
+    const MAX_MEASUREMENTS = 100; // maximale Anzahl von Messungen für den Graphen
+const REST_API_URL = "{{ url_for('get_voltage') }}"; // URL für den REST-Call
+
+// Erstelle ein Array mit Labels für die letzten 100 Messungen (1-100)
+const labels = Array.from({length: MAX_MEASUREMENTS}, (_, i) => i + 1);
+
+// Erstelle das Datenobjekt für den Graphen (ohne Messwerte)
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Akku-Messungen',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: Array(MAX_MEASUREMENTS).fill(null),
+    fill: false
+  }]
+};
+
+// Erstelle das Chart-Konfigurationsobjekt
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    title: {
+      display: true,
+      text: 'Akku-Messungen'
+    },
+    scales: {
+      xAxes: [{
+        display: true,
+        scaleLabel: {
+          display: true,
+          labelString: 'Messung'
+        }
+      }],
+      yAxes: [{
+        display: true,
+        scaleLabel: {
+          display: true,
+          labelString: 'Wert'
+        },
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+};
+
+// Erstelle das Chart-Objekt
+const myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+);
+
+// Funktion zum Hinzufügen einer Messung zum Graphen
+function addMeasurement(value) {
+  const chartData = myChart.data.datasets[0].data; // hole das Datenarray des Chart-Objekts
+  chartData.shift(); // entferne die älteste Messung
+  chartData.push(value); // füge die neue Messung hinzu
+  myChart.update(); // aktualisiere den Graphen
+}
+
+// REST-Call zum Abrufen der Messungen
+setInterval(() => {
+  fetch(REST_API_URL)
+    .then(response => response.json())
+    .then(data => {
+      // Füge die neue Messung zum Graphen hinzu
+      addMeasurement(data.value);
+    })
+    .catch(error => console.error('REST-Call fehlgeschlagen:', error));
+}, 5000); // wiederhole den Call alle 5 Sekunden
+
+
   </script>
 </body>
 
