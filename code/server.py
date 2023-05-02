@@ -1,6 +1,7 @@
 from flask import Flask, request, Response, render_template
 import time
 import os
+import io
 import json
 from picamera import PiCamera
 
@@ -109,13 +110,12 @@ def gen():
 
 def gen():
     while True:
-        time.sleep(0.1)
-        frame = camera.capture_continuous(
-            format='jpeg', use_video_port=True, quality=20, 
-            resize=(320, 240), thumbnail=None
-        )
+        # time.sleep(0.1)
+        with io.BytesIO() as output:
+            camera.capture(output, format='jpeg', use_video_port=True, quality=20, resize=(320, 240))
+            frame = output.getvalue()
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame.getvalue() + b'\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/video_feed')
 def video_feed():
