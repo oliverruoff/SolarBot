@@ -19,7 +19,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
 
-frame_counter = 0
+frame_counter = 1
 voltage = 0
 
 @app.route("/forward_curve_left")
@@ -95,7 +95,7 @@ def gen():
     while True:
         if frame_counter % 1000 == 0:
             voltage = ina.get_voltage()
-            frame_counter = 0
+            frame_counter = 1
         else:
             frame_counter += 1
         rval, frame = vc.read()
