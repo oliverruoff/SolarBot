@@ -71,6 +71,7 @@ def move_backward():
 
 @app.route("/stop")
 def stop():
+    motor_driver.change_both_duty_cycles(0)
     motor_driver.set_standby_both()
     return "Done"
 
