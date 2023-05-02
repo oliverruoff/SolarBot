@@ -1,6 +1,7 @@
 from flask import Flask, request, Response, render_template
 import time
 import os
+import json
 
 import cv2
 import RPi.GPIO as GPIO
@@ -78,7 +79,7 @@ def stop():
 
 @app.route("/get_voltage")
 def get_voltage():
-    return ina.get_voltage().split(" ")[0]
+    return json.dumps({"value":ina.get_voltage().split(" ")[0]})
 
 @app.route("/")
 def remote():
