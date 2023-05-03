@@ -51,13 +51,13 @@
       } else if (mode == "right") {
         httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed=-"+speed_val)
       } else if (mode == "curve_forward_left") {
-        httpGet("{{ url_for('move') }}?left_speed="+(speed_val-30)+"right_speed="+speed_val)
+        httpGet("{{ url_for('move') }}?left_speed="+parseFloat(speed_val-30)+"right_speed="+speed_val)
       } else if (mode == "curve_forward_right") {
-        httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed="+(speed_val-30))
+        httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed="+parseFloat(speed_val-30))
       } else if (mode == "curve_backward_left") {
-        httpGet("{{ url_for('move') }}?left_speed=-"+(speed_val+30)+"&right_speed=-"+speed_val)
+        httpGet("{{ url_for('move') }}?left_speed="+parseFloat(-speed_val+30)+"&right_speed="+parseFloat(-speed_val))
       } else if (mode == "curve_backward_right") {
-        httpGet("{{ url_for('move') }}?left_speed=-"+speed_val+"&right_speed=-"+(speed_val+30))
+        httpGet("{{ url_for('move') }}?left_speed="+(parseFloat(-speed_val)+"&right_speed="+parseFloat(-speed_val+30))
       } else if (mode == "stop") {
         httpGet("{{ url_for('move') }}?left_speed=0&right_speed=0")
       }
