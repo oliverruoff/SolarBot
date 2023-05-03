@@ -1,8 +1,6 @@
-from flask import Flask, request, Response, render_template
-import time
+from flask import Flask, request, Response, render_template, jsonify
 import os
 import io
-import json
 from picamera import PiCamera
 
 import RPi.GPIO as GPIO
@@ -57,7 +55,7 @@ def move():
 
 @app.route("/get_voltage")
 def get_voltage():
-    return json.dumps({"value":ina.get_voltage().split(" ")[0]})
+    return jsonify({"value": ina.get_voltage()})
 
 @app.route("/")
 def remote():
