@@ -18,14 +18,14 @@
   </div>
   <div style="width: 100%;text-align: center;">
     <div style="margin: 0 auto;">
-      <button onmousedown="move('up')" onmouseup="stop()" id="buttonUp"
+      <button onmousedown="move('forward')" onmouseup="move('stop')" id="buttonUp"
         style="width:50px;height:50px;margin:1px;">▲</button>
       <br>
-      <button onmousedown="move('left')" onmouseup="stop()" id="buttonLeft"
+      <button onmousedown="move('left')" onmouseup="move('stop')"" id="buttonLeft"
         style="width:50px;height:50px;margin:1px;">◄</button>
-      <button onmousedown="move('down')" onmouseup="stop()" id="buttonDown"
+      <button onmousedown="move('backward')" onmouseup="move('stop')"" id="buttonDown"
         style="width:50px;height:50px;margin:1px;">▼</button>
-      <button onmousedown="move('right')" onmouseup="stop()" id="buttonRight"
+      <button onmousedown="move('right')" onmouseup="move('stop')"" id="buttonRight"
         style="width:50px;height:50px;margin:1px;">►</button>
       <br>
       <input type="range" min="1" max="100" value="50" class="slider" id="slider">
@@ -41,22 +41,34 @@
 
     function move(mode) {
       console.log('Button Pressed: ', mode)
-      
-    }
-
-    function stop() {
-      httpGet("{{ url_for('stop') }}")
+      speed_val = slider.value
+      if (mode == "forward") {
+        httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed="+speed_val)
+      } else if (mode == "backward") {
+        httpGet("{{ url_for('move') }}?left_speed=-"+speed_val+"&right_speed=-"+speed_val)
+      } else if (mode == "left") {
+        httpGet("{{ url_for('move') }}?left_speed=-"+speed_val+"&right_speed="+speed_val)
+      } else if (mode == "right") {
+        httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed=-"+speed_val)
+      } else if (mode == "curve_forward_left") {
+        httpGet("{{ url_for('move') }}?left_speed="+speed_val-30+"right_speed="+speed_val)
+      } else if (mode == "curve_forward_right") {
+        httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed="+speec_val-30)
+      } else if (mode == "curve_backward_left") {
+        httpGet("{{ url_for('move') }}?left_speed=-"+speed_val+30+"&right_speed=-"+speed_val)
+      } else if (mode == "curve_backward_right") {
+        httpGet("{{ url_for('move') }}?left_speed=-"+speed_val+"&right_speed=-"+speed_val+30)
+      } else if (mode == "stop") {
+        httpGet("{{ url_for('move') }}?left_speed=0&right_speed=0")
+      }
     }
 
     function reactToKeysPressed() {
       console.log('KeysPressed: ', keysPressed)
       console.log('Old keys pressed: ', old_keysPressed)
-      console.log('Length: ', keysPressed.length)
-
- 
 
       if (arraysEqual(old_keysPressed, keysPressed)) {
-        console.log('Same combination, doing nothing.')
+        console.log('Same key combination, doing nothing.')
         return
       } else {
         old_keysPressed = keysPressed.slice()
@@ -64,32 +76,30 @@
 
       if (keysPressed.length == 1) {
         if ((keysPressed.indexOf('KeyW') >= 0 || keysPressed.indexOf('ArrowUp') >= 0)) {
-          httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
+          move('forward')
         } else if ((keysPressed.indexOf('KeyS') >= 0 || keysPressed.indexOf('ArrowDown')) >= 0) {
-          httpGet("{{ url_for('move_backward') }}?motorspeed="+slider.value)
+          move('backward')
         } else if ((keysPressed.indexOf('KeyA') >= 0 || keysPressed.indexOf('ArrowLeft')) >= 0) {
-          httpGet("{{ url_for('turn_left') }}?motorspeed="+slider.value)
+          move('left')
         } else if ((keysPressed.indexOf('KeyD') >= 0 || keysPressed.indexOf('ArrowRight')) >= 0) {
-          httpGet("{{ url_for('turn_right') }}?motorspeed="+slider.value)
-        } else if (keysPressed.indexOf('KeyT') >= 0) {
-          console.log("Test button pressed.")
+          move('right')
         }
       } else if (keysPressed.length == 2) {
         if ((keysPressed.indexOf('ArrowUp') >= 0 && keysPressed.indexOf('ArrowRight') >= 0) ||
           keysPressed.indexOf('KeyW') >= 0 && keysPressed.indexOf('KeyD') >= 0) {
-          httpGet("{{ url_for('forward_curve_right') }}?motorspeed="+slider.value)
+            move('curve_forward_right')
         } else if ((keysPressed.indexOf('ArrowUp') >= 0 && keysPressed.indexOf('ArrowLeft') >= 0) ||
           keysPressed.indexOf('KeyW') >= 0 && keysPressed.indexOf('KeyA') >= 0) {
-          httpGet("{{ url_for('forward_curve_left') }}?motorspeed="+slider.value)
+            move('curve_forward_left')
         } else if ((keysPressed.indexOf('ArrowDown') >= 0 && keysPressed.indexOf('ArrowLeft') >= 0) ||
           keysPressed.indexOf('KeyS') >= 0 && keysPressed.indexOf('KeyA') >= 0) {
-          httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
+            move('curve_backward_left')
         } else if ((keysPressed.indexOf('ArrowDown') >= 0 && keysPressed.indexOf('ArrowRight') >= 0) ||
           keysPressed.indexOf('KeyS') >= 0 && keysPressed.indexOf('KeyD') >= 0) {
-          httpGet("{{ url_for('move_forward') }}?motorspeed="+slider.value)
+            move('curve_backward_right')
         }
       }  else if (keysPressed.length == 0) {
-        stop()
+        move('stop')
       }  else {
         console.log('Too many buttons pressed!');
       }

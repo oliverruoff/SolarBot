@@ -19,70 +19,40 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 tmp_img_path = os.path.join(
     dir_path, 'remote', 'python server', 'tmp_photo', 'tmp_img.jpg')
 
+# Camera settings
 camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 24
 camera.rotation = 180
 
-frame_counter = 1
-voltage = 0
-
-@app.route("/forward_curve_left")
-def forward_curve_left():
-    motorspeed = int(request.args.get('motorspeed', default=100))
-    motor_driver.set_left_direction_clockwise(True)
-    motor_driver.set_right_direction_clockwise(True)
-    motor_driver.change_right_duty_cycle(motorspeed)
-    second_motor_speed = motorspeed - 40 if motorspeed > 40 else 0
-    motor_driver.change_left_duty_cycle(second_motor_speed)
-    return "Done"
-
-@app.route("/forward_curve_right")
-def forward_curve_right():
-    motorspeed = int(request.args.get('motorspeed', default=100))
-    motor_driver.set_left_direction_clockwise(True)
-    motor_driver.set_right_direction_clockwise(True)
-    motor_driver.change_left_duty_cycle(motorspeed)
-    second_motor_speed = motorspeed - 40 if motorspeed > 40 else 0
-    motor_driver.change_right_duty_cycle(second_motor_speed)
-    return "Done"
-
-@app.route("/turn_left")
-def turn_left():
-    motorspeed = int(request.args.get('motorspeed', default=100))
-    motor_driver.set_left_direction_clockwise(False)
-    motor_driver.set_right_direction_clockwise(True)
-    motor_driver.change_both_duty_cycles(motorspeed)
-    return "Done"
-
-@app.route("/turn_right")
-def turn_right():
-    motorspeed = int(request.args.get('motorspeed', default=100))
-    motor_driver.set_left_direction_clockwise(True)
-    motor_driver.set_right_direction_clockwise(False)
-    motor_driver.change_both_duty_cycles(motorspeed)
-    return "Done"
-
-@app.route("/move_forward")
-def move_forward():
-    motorspeed = int(request.args.get('motorspeed', default=100))
-    motor_driver.set_left_direction_clockwise(True)
-    motor_driver.set_right_direction_clockwise(True)
-    motor_driver.change_both_duty_cycles(motorspeed)
-    return "Done"
-
-@app.route("/move_backward")
-def move_backward():
-    motorspeed = int(request.args.get('motorspeed', default=100))
-    motor_driver.set_left_direction_clockwise(False)
-    motor_driver.set_right_direction_clockwise(False)
-    motor_driver.change_both_duty_cycles(motorspeed)
-    return "Done"
-
-@app.route("/stop")
-def stop():
-    motor_driver.change_both_duty_cycles(0)
-    motor_driver.set_standby_both()
+@app.route("/move")
+def move():
+    # parsing args
+    left_speed = int(request.args.get('left_speed'))
+    right_speed = int(request.args.get('right_speed'))
+    print("Received speed values: left_speed:",left_speed,"| right_speed:", right_speed)
+    # setting speed boundaries -100 > x < 100 
+    left_speed = left_speed if left_speed > -100 else -100
+    left_speed = left_speed if left_speed < 100 else 100
+    right_speed = right_speed if right_speed > -100 else -100
+    right_speed = right_speed if right_speed < 100 else 100
+    print("Adjusted speed values: left_speed:",left_speed,"| right_speed:", right_speed)
+    # setting rotation direction of left motor
+    if left_speed < 0:
+        motor_driver.set_left_direction_clockwise(False)
+    else:
+        motor_driver.set_right_direction_clockwise(True)
+    # setting rotation direction of right motor
+    if right_speed < 0:
+        motor_driver.set_right_direction_clockwise(False)
+    else:
+        motor_driver.set_right_direction_clockwise(True)
+    # controlling motors
+    motor_driver.change_left_duty_cycle(abs(left_speed))
+    motor_driver.change_right_duty_cycle(abs(right_speed))
+    # setting standby if both cycles are 0
+    if left_speed == 0 and right_speed == 0:
+        motor_driver.set_standby_both()
     return "Done"
 
 @app.route("/get_voltage")
@@ -93,25 +63,8 @@ def get_voltage():
 def remote():
     return render_template('remote.html', js_path=js_path)
 
-"""
-def gen():
-   # global frame_counter
-   # voltage = ina.get_voltage()
-   # while True:
-   #     if frame_counter % 100 == 0:
-   #         voltage = ina.get_voltage()
-   #         frame_counter = 1
-   #     else:
-   #         frame_counter += 1
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-"""
-
 def gen():
     while True:
-        # time.sleep(0.1)
         with io.BytesIO() as output:
             camera.capture(output, format='jpeg', use_video_port=True, quality=20, resize=(640, 480))
             frame = output.getvalue()
