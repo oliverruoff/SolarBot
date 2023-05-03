@@ -41,7 +41,7 @@ def move():
     if left_speed < 0:
         motor_driver.set_left_direction_clockwise(False)
     else:
-        motor_driver.set_right_direction_clockwise(True)
+        motor_driver.set_left_direction_clockwise(True)
     # setting rotation direction of right motor
     if right_speed < 0:
         motor_driver.set_right_direction_clockwise(False)
