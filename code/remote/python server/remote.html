@@ -138,20 +138,17 @@
       return xmlHttp.responseText;
     }
 
-    const voltageField = document.getElementById("voltage");
-      
     function updateVoltage() {
-    fetch("http://solarbot:5000?get_voltage")
-      .then(response => response.text())
-      .then(data => {
-        try {
-          const json = JSON.parse(data);
-          voltageField.value = json.value;
-        } catch (error) {
-          console.error(error);
-        }
-      })
-      .catch(error => console.error(error));
+  fetch("http://solarbot:5000?get_voltage")
+    .then(response => response.text())
+    .then(data => {
+      console.log(data); // Output the server response to the console
+      return JSON.parse(data);
+    })
+    .then(json => {
+      voltageField.value = json.value;
+    })
+    .catch(error => console.error(error));
 }
       
       setInterval(updateVoltage, 5000);
