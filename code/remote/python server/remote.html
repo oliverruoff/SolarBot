@@ -53,7 +53,7 @@
       } else if (mode == "curve_forward_left") {
         httpGet("{{ url_for('move') }}?left_speed="+speed_val-30+"right_speed="+speed_val)
       } else if (mode == "curve_forward_right") {
-        httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed="+speec_val-30)
+        httpGet("{{ url_for('move') }}?left_speed="+speed_val+"&right_speed="+speed_val-30)
       } else if (mode == "curve_backward_left") {
         httpGet("{{ url_for('move') }}?left_speed=-"+speed_val+30+"&right_speed=-"+speed_val)
       } else if (mode == "curve_backward_right") {
