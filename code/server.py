@@ -57,8 +57,7 @@ def move():
 
 @app.route("/get_voltage")
 def get_voltage():
-    # return json.dumps({"value":ina.get_voltage().split(" ")[0]})
-    return ina.get_voltage()
+    return json.dumps({"value":ina.get_voltage().split(" ")[0]})
 
 @app.route("/")
 def remote():
