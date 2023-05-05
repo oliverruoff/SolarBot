@@ -1,10 +1,12 @@
-from flask import Flask, request, Response, render_template, jsonify
+# core libraries
 import os
 import io
-from picamera import PiCamera
-
+from threading import Thread
+# external libraries
 import RPi.GPIO as GPIO
-
+from picamera import PiCamera
+from flask import Flask, request, Response, render_template, jsonify
+# package internal
 from actuators import l298n_mini, servo
 from sensors import ina219
 
@@ -60,7 +62,8 @@ def get_voltage():
 @app.route("/control_servo")
 def control_servo():
     angle_degree = int(request.args.get('angle_degree'))
-    sv.move_to_angle(angle_degree)
+    thread = Thread(target = sv.move_to_angle, args = (angle_degree,))
+    thread.start()
     return "Done"
 
 @app.route("/")
