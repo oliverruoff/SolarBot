@@ -5,7 +5,7 @@ from picamera import PiCamera
 
 import RPi.GPIO as GPIO
 
-from actuators import l298n_mini
+from actuators import l298n_mini, servo
 from sensors import ina219
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -57,6 +57,12 @@ def move():
 def get_voltage():
     return jsonify({"value": ina.get_voltage()})
 
+@app.route("/control_servo")
+def control_servo():
+    angle_degree = int(request.args.get('angle_degree'))
+    sv.move_to_angle(angle_degree)
+    return "Done"
+
 @app.route("/")
 def remote():
     return render_template('remote.html', js_path=js_path)
@@ -88,6 +94,9 @@ if __name__ == "__main__":
     
     # voltage meter
     ina = ina219.ina219()
+
+    #servo motor
+    sv = servo.servo(23)
 
     # remote_html = prepare_remote()
     js_path = os.path.join(dir_path, 'remote', 'python server', 'joystick.js')
