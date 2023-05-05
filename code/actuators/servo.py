@@ -9,10 +9,11 @@ class servo:
         # initializing pins
         GPIO.setmode(gpio_mode)
         GPIO.setup(pin, GPIO.OUT)
+        
         self.p = GPIO.PWM(pin, 50)
+        self.p.start(0)
 
     def move_to_angle(self, degree):
-        self.p.start(0)
         self.p.ChangeDutyCycle(int(2+(degree/18)))
 
     def stop_pwm(self):
