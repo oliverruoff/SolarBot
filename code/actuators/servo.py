@@ -14,7 +14,8 @@ class servo:
     def move_to_angle(self, degree):
         self.p.start(0)
         self.p.ChangeDutyCycle(int(2+(degree/18)))
-        time.sleep(0.5)
+
+    def stop_pwm(self):
         self.p.stop()
 
     def test_routine(self):

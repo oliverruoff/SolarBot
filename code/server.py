@@ -1,7 +1,6 @@
 # core libraries
 import os
 import io
-from threading import Thread
 # external libraries
 import RPi.GPIO as GPIO
 from picamera import PiCamera
@@ -62,8 +61,7 @@ def get_voltage():
 @app.route("/control_servo")
 def control_servo():
     angle_degree = int(request.args.get('angle_degree'))
-    thread = Thread(target = sv.move_to_angle, args = (angle_degree,))
-    thread.start()
+    sv.move_to_angle(angle_degree)
     return "Done"
 
 @app.route("/")
