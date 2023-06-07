@@ -13,3 +13,5 @@ Small robot with solar panel
     - GPIO19 = INA2
     - GPIO13 = INA3
     - GPIO06 = INA4
+
+![solarbot](docs/solarbot.jpg)
